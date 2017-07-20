@@ -13,7 +13,8 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.View;
-import android.widget.CheckBox;
+import android.widget.AdapterView;
+import android.widget.Spinner;
 
 
 import com.sargent.mark.todolist.data.Contract;
@@ -23,6 +24,7 @@ public class MainActivity extends AppCompatActivity implements AddToDoFragment.O
 
     private RecyclerView rv;
     private FloatingActionButton button;
+    private Spinner spin;
     private DBHelper helper;
     private Cursor cursor;
     private SQLiteDatabase db;
@@ -41,6 +43,18 @@ public class MainActivity extends AppCompatActivity implements AddToDoFragment.O
                 FragmentManager fm = getSupportFragmentManager();
                 AddToDoFragment frag = new AddToDoFragment();
                 frag.show(fm, "addtodofragment");
+            }
+        });
+        spin = (Spinner) findViewById(R.id.spinner_main);
+        spin.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
             }
         });
         rv = (RecyclerView) findViewById(R.id.recyclerView);
@@ -164,7 +178,7 @@ public class MainActivity extends AppCompatActivity implements AddToDoFragment.O
     public static int updateCategory(SQLiteDatabase db, String category, long id) {
         ContentValues cv = new ContentValues();
         cv.put(Contract.TABLE_TODO.COLUMN_NAME_CATEGORY, category);
-
+        Log.d("updateCategory", "Update Category has been called");
         return db.update(Contract.TABLE_TODO.TABLE_NAME, cv, Contract.TABLE_TODO._ID + "=" + id, null);
     }
 }

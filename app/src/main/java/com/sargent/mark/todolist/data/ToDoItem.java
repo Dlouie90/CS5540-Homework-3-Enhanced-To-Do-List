@@ -10,10 +10,11 @@ public class ToDoItem {
     private boolean checked;
     private String category;
 
-    public ToDoItem(String description, String dueDate) {
+    public ToDoItem(String description, String dueDate, boolean checked, String category) {
         this.description = description;
         this.dueDate = dueDate;
-        this.checked = false;
+        this.checked = checked;
+        this.category = category;
 
     }
 

@@ -100,6 +100,7 @@ public class ToDoListAdapter extends RecyclerView.Adapter<ToDoListAdapter.ItemHo
             int dbChecked = cursor.getInt(cursor.getColumnIndex(Contract.TABLE_TODO.COLUMN_NAME_CHECKED));
             checked = (dbChecked == 1) ? true : false;
             category = cursor.getString(cursor.getColumnIndex(Contract.TABLE_TODO.COLUMN_NAME_CATEGORY));
+            Log.d(TAG, "Spinner Selection: " + getSpinnerIndex(spinner, category) + " category: " + category + " id: " + id);
             spinner.setSelection(getSpinnerIndex(spinner, category));
 
             checkBox.setChecked(checked);
@@ -114,9 +115,9 @@ public class ToDoListAdapter extends RecyclerView.Adapter<ToDoListAdapter.ItemHo
 
             spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
-                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long idrow) {
                     String item = parent.getItemAtPosition(position).toString();
-                    Log.d(TAG, "Item Selected: " + id + " " + item);
+                    //Log.d(TAG, "Item Selected: " + idpos + " " + item);
                     MainActivity.updateCategory(db, item, id);
                 }
 
