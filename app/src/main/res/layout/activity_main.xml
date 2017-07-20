@@ -9,6 +9,7 @@
     android:weightSum="1"
     tools:context="com.sargent.mark.todolist.MainActivity">
 
+    <!-- I created another spinner to filter the categories and preset the values -->
     <Spinner
         android:id="@+id/spinner_main"
         android:layout_width="match_parent"

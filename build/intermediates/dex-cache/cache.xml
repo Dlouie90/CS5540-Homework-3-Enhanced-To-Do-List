@@ -3,21 +3,21 @@
 
     <item
         is-multidex="true"
-        jar="C:\Users\Guldan\Desktop\CS5540 Android\CS5540-Homework-3-Enhanced-To-Do-List\app\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
+        jar="C:\Users\TallGuy\CS5540\ToDoList\app\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.2"
-        sha1="a0009c82dc1b740dd072f3fcb6b419c37972d84c">
-        <dex dex="C:\Users\Guldan\Desktop\CS5540 Android\CS5540-Homework-3-Enhanced-To-Do-List\app\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run-bootstrap_08b08979604ba4ed1566023b35e350b2dd30c758\classes.dex" />
+        sha1="a39c27634cd6e1916e5bb3ef5b32789afb4d80a3">
+        <dex dex="C:\Users\TallGuy\CS5540\ToDoList\app\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run-bootstrap_ac618a28a19058295e393375601db9c18b4c1048\classes.dex" />
     </item>
     <item
         is-multidex="true"
-        jar="C:\Users\Guldan\Desktop\CS5540 Android\CS5540-Homework-3-Enhanced-To-Do-List\app\build\intermediates\incremental-runtime-classes\debug\instant-run.jar"
+        jar="C:\Users\TallGuy\CS5540\ToDoList\app\build\intermediates\incremental-runtime-classes\debug\instant-run.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.2"
         sha1="3be78ebc2706b2e1fe2f12d5726887a92d6c183b">
-        <dex dex="C:\Users\Guldan\Desktop\CS5540 Android\CS5540-Homework-3-Enhanced-To-Do-List\app\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run_a3bf05de78bdf12a3e5f4ae5b555b3737439a9e9\classes.dex" />
+        <dex dex="C:\Users\TallGuy\CS5540\ToDoList\app\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run_3702f0689720ae30b36d8195bfb31e60fd8954c6\classes.dex" />
     </item>
 
 </items>

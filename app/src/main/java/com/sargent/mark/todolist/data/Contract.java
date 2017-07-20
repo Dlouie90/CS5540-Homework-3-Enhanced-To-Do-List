@@ -8,6 +8,7 @@ import android.provider.BaseColumns;
 
 public class Contract {
 
+    // I have added the Strings for checked and category to be used
     public static class TABLE_TODO implements BaseColumns{
         public static final String TABLE_NAME = "todoitems";
 

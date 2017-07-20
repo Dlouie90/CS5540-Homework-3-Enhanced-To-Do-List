@@ -19,6 +19,9 @@ public class DBHelper extends SQLiteOpenHelper{
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
+    /* I have added two new columns which are checked as a 0 or 1 for boolean since there are no
+        boolean types for SQLite and category as text for the string of the category
+     */
     @Override
     public void onCreate(SQLiteDatabase db) {
         String queryString = "CREATE TABLE " + Contract.TABLE_TODO.TABLE_NAME + " ("+

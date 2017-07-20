@@ -4,6 +4,9 @@ package com.sargent.mark.todolist.data;
  * Created by mark on 7/4/17.
  */
 
+/* I have updated the ToDoItem class to include checked and category just in case I use this class.
+    Getters and Setters were also auto-generated for the two new fields.
+ */
 public class ToDoItem {
     private String description;
     private String dueDate;

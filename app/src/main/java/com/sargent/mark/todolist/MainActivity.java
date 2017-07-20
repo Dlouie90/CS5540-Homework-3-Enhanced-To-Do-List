@@ -45,18 +45,8 @@ public class MainActivity extends AppCompatActivity implements AddToDoFragment.O
                 frag.show(fm, "addtodofragment");
             }
         });
+        // I instantiated the spinner for filtering the categories when the app is created.
         spin = (Spinner) findViewById(R.id.spinner_main);
-        spin.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
         rv = (RecyclerView) findViewById(R.id.recyclerView);
         rv.setLayoutManager(new LinearLayoutManager(this));
     }
@@ -94,6 +84,24 @@ public class MainActivity extends AppCompatActivity implements AddToDoFragment.O
         });
 
         rv.setAdapter(adapter);
+
+        /* I created the and set the OnItemSelectedListeners after the adapter has been set.
+           Then in the onItemSelected method, I get the string of the item that was selected
+            and I create a query and swapped the cursor for the adapter.
+         */
+        spin.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String filter = parent.getItemAtPosition(position).toString();
+                adapter.swapCursor(getAllItemsByCategory(db, filter));
+            }
+
+            // Nothing happens when nothing is selected
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
 
@@ -135,7 +143,30 @@ public class MainActivity extends AppCompatActivity implements AddToDoFragment.O
                 Contract.TABLE_TODO.COLUMN_NAME_DUE_DATE
         );
     }
+    /* This method query all the items depending on the filter or the category that was selected
+        and returns the cursor.
+     */
+    private Cursor getAllItemsByCategory(SQLiteDatabase db, String filter) {
+        if (filter.equals("All")) {
+            return getAllItems(db);
+        }
+        else {
+            String[] args = new String[] {filter};
+            return db.query(Contract.TABLE_TODO.TABLE_NAME,
+                    null,
+                    Contract.TABLE_TODO.COLUMN_NAME_CATEGORY + " ==  ?",
+                    args,
+                    null,
+                    null,
+                    Contract.TABLE_TODO.COLUMN_NAME_DUE_DATE
+            );
+        }
 
+    }
+
+    /* I have added default values to the two new columns I added which is 0 for checked which
+        means false and Urgent for category since urgent is the first item in the spinner.
+     */
     private long addToDo(SQLiteDatabase db, String description, String duedate) {
         ContentValues cv = new ContentValues();
         cv.put(Contract.TABLE_TODO.COLUMN_NAME_DESCRIPTION, description);
@@ -167,7 +198,7 @@ public class MainActivity extends AppCompatActivity implements AddToDoFragment.O
         updateToDo(db, year, month, day, description, id);
         adapter.swapCursor(getAllItems(db));
     }
-
+    // I have this static method update the checked column when you pass the boolean to it
     public static int updateChecked(SQLiteDatabase db, boolean checked, long id) {
         ContentValues cv = new ContentValues();
         cv.put(Contract.TABLE_TODO.COLUMN_NAME_CHECKED, (checked) ? 1 : 0);
@@ -175,10 +206,11 @@ public class MainActivity extends AppCompatActivity implements AddToDoFragment.O
         return db.update(Contract.TABLE_TODO.TABLE_NAME, cv, Contract.TABLE_TODO._ID + "=" + id, null);
     }
 
+    // This static method updates the category when you pass the string of the category
     public static int updateCategory(SQLiteDatabase db, String category, long id) {
         ContentValues cv = new ContentValues();
         cv.put(Contract.TABLE_TODO.COLUMN_NAME_CATEGORY, category);
-        Log.d("updateCategory", "Update Category has been called");
+        //Log.d("updateCategory", "Update Category has been called");
         return db.update(Contract.TABLE_TODO.TABLE_NAME, cv, Contract.TABLE_TODO._ID + "=" + id, null);
     }
 }

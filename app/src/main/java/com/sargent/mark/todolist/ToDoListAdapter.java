@@ -27,7 +27,7 @@ public class ToDoListAdapter extends RecyclerView.Adapter<ToDoListAdapter.ItemHo
     private Cursor cursor;
     private ItemClickListener listener;
     private String TAG = "todolistadapter";
-    private SQLiteDatabase db;
+    private SQLiteDatabase db; // I added a field for the database to update
 
     @Override
     public ItemHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -54,6 +54,7 @@ public class ToDoListAdapter extends RecyclerView.Adapter<ToDoListAdapter.ItemHo
         void onItemClick(int pos, String description, String duedate, long id);
     }
 
+    // I added an extra parameter to instantiate the database so I have access to it in the adapter
     public ToDoListAdapter(Cursor cursor, SQLiteDatabase db, ItemClickListener listener) {
         this.cursor = cursor;
         this.listener = listener;
@@ -69,6 +70,9 @@ public class ToDoListAdapter extends RecyclerView.Adapter<ToDoListAdapter.ItemHo
         }
     }
 
+    /* I added 4 extra fields for checkbox and spinner so I can get the reference to the
+        checkbox and the value and the spinner and its value.
+     */
     class ItemHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView descr;
         TextView due;
@@ -80,7 +84,7 @@ public class ToDoListAdapter extends RecyclerView.Adapter<ToDoListAdapter.ItemHo
         String category;
         long id;
 
-
+        // I instantiate the checkBox and spinner using their ids.
         ItemHolder(View view) {
             super(view);
             descr = (TextView) view.findViewById(R.id.description);
@@ -90,6 +94,12 @@ public class ToDoListAdapter extends RecyclerView.Adapter<ToDoListAdapter.ItemHo
             view.setOnClickListener(this);
         }
 
+        /* Bind is where I did a lot of my work. I instantiated the 4 extra fields I created.
+            First, I instantiated the values of checked and category by retrieving the value from
+            the database. Then I set the OnClickListeners and Overrided the method so it will update
+            the database when clicked. Next, I set the OnItemSelectedListeners for the spinner and
+            updated the database just like before.
+         */
         public void bind(ItemHolder holder, int pos) {
             cursor.moveToPosition(pos);
             id = cursor.getLong(cursor.getColumnIndex(Contract.TABLE_TODO._ID));
@@ -100,7 +110,7 @@ public class ToDoListAdapter extends RecyclerView.Adapter<ToDoListAdapter.ItemHo
             int dbChecked = cursor.getInt(cursor.getColumnIndex(Contract.TABLE_TODO.COLUMN_NAME_CHECKED));
             checked = (dbChecked == 1) ? true : false;
             category = cursor.getString(cursor.getColumnIndex(Contract.TABLE_TODO.COLUMN_NAME_CATEGORY));
-            Log.d(TAG, "Spinner Selection: " + getSpinnerIndex(spinner, category) + " category: " + category + " id: " + id);
+            //Log.d(TAG, "Spinner Selection: " + getSpinnerIndex(spinner, category) + " category: " + category + " id: " + id);
             spinner.setSelection(getSpinnerIndex(spinner, category));
 
             checkBox.setChecked(checked);
@@ -115,7 +125,7 @@ public class ToDoListAdapter extends RecyclerView.Adapter<ToDoListAdapter.ItemHo
 
             spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
-                public void onItemSelected(AdapterView<?> parent, View view, int position, long idrow) {
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long idRow) {
                     String item = parent.getItemAtPosition(position).toString();
                     //Log.d(TAG, "Item Selected: " + idpos + " " + item);
                     MainActivity.updateCategory(db, item, id);
@@ -139,6 +149,7 @@ public class ToDoListAdapter extends RecyclerView.Adapter<ToDoListAdapter.ItemHo
         }
     }
 
+    // This method is to retrieve the item position of the string input so I can set the position
     private int getSpinnerIndex(Spinner s, String input) {
         int index = 0;
         for (int i = 0; i < s.getCount(); i++) {
